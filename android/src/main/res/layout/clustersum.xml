@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="28dp"
+    android:layout_height="50dp"
+
+    >
+        <ImageView
+            android:id="@+id/iv_unreadMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="6dp"
+            android:visibility="visible"
+            android:src="@drawable/icon_gcoding"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_unread_message_number"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_point_red_push_message"
+            android:gravity="center_vertical"
+            android:visibility="visible"
+            android:orientation="vertical"
+
+            >
+            <TextView
+                android:id="@+id/tv_clusterSum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                />
+        </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,28 @@
+{
+  "name": "react-native-baidu-map",
+  "dependencies": {},
+  "description": "Baidu Map SDK modules and view for React Native(Android & IOS), support react native 0.40+.",
+  "homepage": "https://github.com/mrlinjw/react-native-baidu-map#readme",
+  "keywords": [
+    "Baidu Map",
+    "React Native"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "linjw",
+      "email": "616988524@qq.com"
+    }
+  ],
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrlinjw/react-native-baidu-map.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.0.1"
+}
