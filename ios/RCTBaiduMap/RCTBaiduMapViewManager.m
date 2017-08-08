@@ -309,13 +309,13 @@ onDrawMapFrame:(BMKMapStatus*)status {
                         }
                         [clusters addObject:annotation];
                     }
-                    if(cluster == YES || (clusterPoint =NO && cluster == YES) ){
-                        if(clusterPoint == NO){
-                            cluster = NO;
-                        }
+//                    if(cluster == YES || (clusterPoint =NO && cluster == YES) ){
+//                        if(clusterPoint == NO){
+//                            cluster = NO;
+//                        }
                         [mapView removeAnnotations:mapView.annotations];
                         [mapView addAnnotations:clusters];
-                    }
+//                    }
                 });
             });
         }
