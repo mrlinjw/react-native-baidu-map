@@ -156,7 +156,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
         BaiduMapProtocol protocol = new BaiduMapProtocol();
         mapInfos = protocol.paserJson(options + "");
         Log.e("mapInfos", mapInfos + "");
-        Log.e("latitude", mapInfos.get(0).latitude + "");
+        //Log.e("latitude", mapInfos.get(0).latitude + "");
         List<MyItem> items =  new ArrayList<MyItem>();;
         // 定义点聚合管理类ClusterManager
 
