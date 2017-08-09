@@ -57,6 +57,8 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     private HashMap<String, Marker> mMarkerMap = new HashMap<>();
     private HashMap<String, List<Marker>> mMarkersMap = new HashMap<>();
     private TextView mMarkerText;
+    MapView mapViewGloble;//全局mapview
+    private ClusterManager<MyItem> mClusterManager;//多点聚合
 
     public String getName() {
         return REACT_CLASS;
@@ -69,9 +71,11 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
 
     public MapView createViewInstance(ThemedReactContext context) {
         mReactContext = context;
-        MapView mapView =  new MapView(context);
-        setListeners(mapView);
-        return mapView;
+        mapViewGloble =  new MapView(context);
+        setListeners(mapViewGloble);
+        Log.e("测试生命周期","入库");
+        mClusterManager = new ClusterManager<MyItem>(mReactContext, mapViewGloble.getMap());
+        return mapViewGloble;
     }
 
     @Override
@@ -148,60 +152,53 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     }
 
     List<BaiDuMapInfo> mapInfos = new ArrayList<BaiDuMapInfo>();
+   public static List<MyItem> itemstest =  new ArrayList<MyItem>();
     @ReactProp(name="markers")
     public void setMarkers(final MapView mapView, ReadableArray options) {
 
-
+        Log.e("测试生命周期","聚合");
+        mClusterManager.clearItems();//清除所有的items
+        mClusterManager.getMarkerCollection().clear();
+        mClusterManager.getClusterMarkerCollection().clear();
         Log.e("options", options + "");
+       // Toast.makeText(mReactContext,"caca",Toast.LENGTH_LONG).show();
         BaiduMapProtocol protocol = new BaiduMapProtocol();
         mapInfos = protocol.paserJson(options + "");
         Log.e("mapInfos", mapInfos + "");
         //Log.e("latitude", mapInfos.get(0).latitude + "");
-        List<MyItem> items =  new ArrayList<MyItem>();;
+        List<MyItem> items =  new ArrayList<MyItem>();
         // 定义点聚合管理类ClusterManager
 
-        mClusterManager = new ClusterManager<MyItem>(mReactContext, mapView.getMap());
-        for (BaiDuMapInfo info : mapInfos) {
-            // 从本地信息中获取经纬度
-//            LatLng currentLatLng = new LatLng(info.latitude, info.longitude);
-//            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
-//            OverlayOptions overoptions = new MarkerOptions()
-//                    .title(info.title).period(Integer.valueOf(info.itemId))
-//                    .position(currentLatLng)// 这是代表在哪一个经纬度
-//                    .icon(icon);
+      //  mClusterManager = new ClusterManager<MyItem>(mReactContext, mapViewGloble.getMap());
+
+
+
+
 //
-//            // 添加覆盖物
-//            Marker marker = (Marker) mapView.getMap().addOverlay(overoptions);
 
-
+        for (BaiDuMapInfo info : mapInfos) {
             LatLng llA = new LatLng(info.latitude, info.longitude);
             items.add(new MyItem(llA,info.title,info.itemId,info.type));
 
         }
+        Log.e("items", "item大小"+items.size() + "");
+        itemstest = items;
         mClusterManager.addItems(items);
+        mClusterManager.cluster();
         // 设置地图监听，当地图状态发生改变时，进行点聚合运算
-        mapView.getMap().setOnMapStatusChangeListener(mClusterManager);
+        mapViewGloble.getMap().setOnMapStatusChangeListener(mClusterManager);
         // 设置maker点击时的响应
-        mapView.getMap().setOnMarkerClickListener(mClusterManager);
+        mapViewGloble.getMap().setOnMarkerClickListener(mClusterManager);
 
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyItem> cluster) {
                 Toast.makeText(mReactContext,
-                        "有" + cluster.getSize() + "个聚合点", Toast.LENGTH_SHORT).show();
+                        cluster.getSize()+"", Toast.LENGTH_SHORT).show();
 
                 //if(childClusterVisible){
                     List<MyItem> items = (List<MyItem>) cluster.getItems();
                     LatLngBounds.Builder builder2 = new LatLngBounds.Builder();
-//                    int i=0;
-//                    for(MyItem myItem : items){
-//                        builder2 = builder2.include(myItem.getPosition());
-//                        Log.e("map","log: i="+ i++ +" pos="+myItem.getPosition().toString());
-//                        Log.e("经度",myItem.getPosition().longitude+"");
-//                        Log.e("纬度",myItem.getPosition().latitude+"");
-//                        Log.e("title",myItem.getTitile());
-//                        Log.e("id",myItem.getItemId());
-//                    }
 
                 WritableMap writableMap = Arguments.createMap();
 
@@ -224,17 +221,8 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
                     backItems.pushMap(writableMap_1);
                 }
                     writableMap.putArray("items",backItems);
-                    sendEvent(mapView, "onMarkerClick", writableMap);
+                    sendEvent(mapViewGloble, "onMarkerClick", writableMap);
                 }
-//                    LatLngBounds latlngBounds = builder2.build();
-//                    MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(latlngBounds,mapView.getWidth(),mapView.getHeight());
-//                     mapView.getMap().animateMapStatus(u);
-                    //Log.i("map","log: mBaiduMap.animateMapStatus(u)");
-
-
-               // }
-
-
                 return false;
             }
         });
@@ -266,40 +254,13 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
                 writableMap_1.putString("type", item.getZIndex());
                 items.pushMap(writableMap_1);
                 writableMap.putArray("items",items);
-                sendEvent(mapView, "onMarkerClick", writableMap);
+                sendEvent(mapViewGloble, "onMarkerClick", writableMap);
                 return false;
             }
         });
 
 
         mClusterManager.setHandler(handler, MAP_STATUS_CHANGE); //设置handler
-
-
-        /*
-        String key = "markers_" + mapView.getId();
-        List<Marker> markers = mMarkersMap.get(key);
-        if(markers == null) {
-            markers = new ArrayList<>();
-        }
-        for (int i = 0; i < options.size(); i++) {
-            ReadableMap option = options.getMap(i);
-            if(markers.size() > i + 1 && markers.get(i) != null) {
-                MarkerUtil.updateMaker(markers.get(i), option);
-            }
-            else {
-                markers.add(i, MarkerUtil.addMarker(mapView, option));
-            }
-        }
-        if(options.size() < markers.size()) {
-            int start = markers.size() - 1;
-            int end = options.size();
-            for (int i = start; i >= end; i--) {
-                markers.get(i).remove();
-                markers.remove(i);
-            }
-        }
-        mMarkersMap.put(key, markers);
-        */
 
     }
 
@@ -481,7 +442,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     MapView mMapView;
     BaiduMap mBaiduMap;
     MapStatus ms;
-    private ClusterManager<MyItem> mClusterManager;
+
 
     private final  int MAP_STATUS_CHANGE = 100;
     private Handler handler = new Handler() {
