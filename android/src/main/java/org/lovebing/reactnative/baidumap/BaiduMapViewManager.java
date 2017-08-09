@@ -207,7 +207,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
                 //总部
                 writableMap.putDouble("latitude", items.get(0).getPosition().latitude);
                 writableMap.putDouble("longitude", items.get(0).getPosition().longitude);
-                writableMap.putString("cluster", "true");
+                writableMap.putBoolean("cluster", true);
                 writableMap.putString("itemId", items.get(0).getItemId());
                     writableMap.putString("type", items.get(0).getZIndex());
                 writableMap.putString("title", items.size()+"个聚合点");
@@ -242,7 +242,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
                 //总部
                writableMap.putDouble("latitude",item.getPosition().latitude);
                 writableMap.putDouble("longitude", item.getPosition().longitude);
-                writableMap.putString("cluster", "false");
+                writableMap.putBoolean("cluster", false);
                 writableMap.putString("itemId", item.getItemId());
                 writableMap.putString("title", item.getTitile());
                 writableMap.putString("type", item.getZIndex());
