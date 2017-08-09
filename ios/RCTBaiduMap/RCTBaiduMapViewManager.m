@@ -9,7 +9,6 @@
 #import "RCTBaiduMapViewManager.h"
 #import "Cluster/BMKClusterManager.h"
 
-
 /*
  *点聚合Annotation
  */
@@ -89,7 +88,7 @@
     BMKClusterManager *_clusterManager;//点聚合管理类
     NSInteger _clusterZoom;//聚合级别
     NSMutableArray *_clusterCaches;//点聚合缓存标注
-    NSMutableArray* _annotations;
+//    NSMutableArray* _annotations;
     NSInteger _zoomLevel; //原聚合级别
     BOOL cluster; //判断是否存在多点聚合
 };
@@ -237,8 +236,9 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
 }
 
 //监听地图状态，缩放时重绘标志
-- (void) mapView:(BMKMapView *)mapView
-onDrawMapFrame:(BMKMapStatus*)status {
+- (void) mapView:(BMKMapView *)mapView onDrawMapFrame:(BMKMapStatus*)status {
+    
+    
     NSInteger zooml = (NSInteger)mapView.zoomLevel;
     if(!_zoomLevel){
         _zoomLevel = zooml;
@@ -247,28 +247,41 @@ onDrawMapFrame:(BMKMapStatus*)status {
         if(_zoomLevel != zooml){
             _zoomLevel = zooml;
             NSLog(@"%@", [NSString stringWithFormat:@"%ld级别", zooml]);
-            [self addPointJuheWithCoorArray:mapView];
+//            if(!_annotations){
+////                _annotations = [NSMutableArray arrayWithArray: mapView.annotations];
+//                _annotations = [NSMutableArray new];
+//                int c = [mapView.annotations count];
+//                for (int i = 0; i< c; i++) {
+//                    [_annotations addObject:[mapView.annotations objectAtIndex:i]];
+//                }
+//            }
+            [self addPointJuheWithCoorArray:mapView ans:_Annotations ];
         }
     }
 }
 
+-(void)setReceiveAnnotations: (NSMutableArray *) ans{
+//    _annotations = [NSMutableArray arrayWithArray: ans];
+    _Annotations = ans;
+}
+
 //添加模型数组
-- (void)addPointJuheWithCoorArray: (BMKMapView *)mapView {
+- (void)addPointJuheWithCoorArray: (BMKMapView *)mapView
+                              ans: (NSMutableArray *)ans{
     _clusterCaches = [[NSMutableArray alloc] init];
     for (NSInteger i = 3; i < 22; i++) {
         [_clusterCaches addObject:[NSMutableArray array]];
     }
-    
     //点聚合管理类
     _clusterManager = [[BMKClusterManager alloc] init];
     //向点聚合管理类中添加标注
-    if(!_annotations){
-        _annotations = mapView.annotations;
-    }
-    long int count = [_annotations count];
+//    if(!_annotations){
+//        _annotations = [NSMutableArray arrayWithArray: mapView.annotations];
+//    }
+    long int count = [ans count];
     for (NSInteger i = 0; i < count; i++) {
         BMKClusterItem *clusterItem = [[BMKClusterItem alloc] init];
-        BMKPointAnnotation *a = [_annotations objectAtIndex:i];
+        BMKPointAnnotation *a = [ans objectAtIndex:i];
         clusterItem.coor = a.coordinate;
         clusterItem.title = a.title;
         clusterItem.accessibilityLabel = a.accessibilityLabel;

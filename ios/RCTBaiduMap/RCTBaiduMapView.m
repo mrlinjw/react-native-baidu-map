@@ -7,6 +7,7 @@
 //
 
 #import "RCTBaiduMapView.h"
+#import "RCTBaiduMapViewManager.h"
 
 @implementation RCTBaiduMapView {
     BMKMapView* _mapView;
@@ -43,6 +44,18 @@
     if(_annotations == nil) {
         _annotations = [[NSMutableArray alloc] init];
     }
+    
+    //删除旧点
+    int oldCount = [_annotations count];
+    if(oldCount >0 ){
+        int start = oldCount -1;
+        for (int i = start; i >= oldCount; i--) {
+            BMKPointAnnotation *annotation = [_annotations objectAtIndex:i];
+            [self removeAnnotation:annotation];
+            [_annotations removeObject:annotation];
+        }
+    }
+    
     if(markers != nil) {
         for (int i = 0; i < markersCount; i++)  {
             NSDictionary *option = [markers objectAtIndex:i];
@@ -77,6 +90,9 @@
             }
         }
     }
+    RCTBaiduMapViewManager * ma = [RCTBaiduMapViewManager new];
+    [ma setReceiveAnnotations: _annotations];
+    [ma addPointJuheWithCoorArray: self ans: _annotations];
 }
 
 -(CLLocationCoordinate2D)getCoorFromMarkerOption:(NSDictionary *)option {

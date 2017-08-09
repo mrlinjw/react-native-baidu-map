@@ -11,11 +11,20 @@
 
 #import "RCTBaiduMapView.h"
 
+static NSMutableArray* _Annotations;
+
+
 @interface RCTBaiduMapViewManager : RCTViewManager<BMKMapViewDelegate>
 
+
+@property (strong) NSString *flag;
 +(void)initSDK:(NSString *)key;
 
 -(void)sendEvent:(RCTBaiduMapView *) mapView params:(NSDictionary *) params;
+
+-(void)addPointJuheWithCoorArray: (BMKMapView *)mapView ans: (NSMutableArray *)ans;
+
+-(void)setReceiveAnnotations: (NSMutableArray *) ans;
 
 @end
 
