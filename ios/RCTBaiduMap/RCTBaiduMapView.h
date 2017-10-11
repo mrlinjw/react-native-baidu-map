@@ -25,6 +25,8 @@
 -(void)setCenterLatLng:(NSDictionary *)LatLngObj;
 -(void)setMarker:(NSDictionary *)Options;
 -(void)updateClusters;
+-(void)setIconType:(int)iconType;
+
 
 @end
 

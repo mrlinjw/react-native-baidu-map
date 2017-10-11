@@ -15,6 +15,10 @@
     NSMutableArray* _annotations;
 }
 
+-(void)setIconType:(int)iconType {
+    self.tag = iconType;
+}
+
 -(void)setZoom:(float)zoom {
     self.zoomLevel = zoom;
 }

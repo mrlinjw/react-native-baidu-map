@@ -1,7 +1,65 @@
 {
-  "name": "react-native-baidu-map",
+  "_args": [
+    [
+      {
+        "raw": "react-native-baidu-map@git+https://github.com/mrlinjw/react-native-baidu-map.git",
+        "scope": null,
+        "escapedName": "react-native-baidu-map",
+        "name": "react-native-baidu-map",
+        "rawSpec": "git+https://github.com/mrlinjw/react-native-baidu-map.git",
+        "spec": "git+https://github.com/mrlinjw/react-native-baidu-map.git",
+        "type": "hosted",
+        "hosted": {
+          "type": "github",
+          "ssh": "git@github.com:mrlinjw/react-native-baidu-map.git",
+          "sshUrl": "git+ssh://git@github.com/mrlinjw/react-native-baidu-map.git",
+          "httpsUrl": "git+https://github.com/mrlinjw/react-native-baidu-map.git",
+          "gitUrl": "git://github.com/mrlinjw/react-native-baidu-map.git",
+          "shortcut": "github:mrlinjw/react-native-baidu-map",
+          "directUrl": "https://raw.githubusercontent.com/mrlinjw/react-native-baidu-map/master/package.json"
+        }
+      },
+      "/Users/linjunwen/work/company-svn/trunk/seatour"
+    ]
+  ],
+  "_from": "git+https://github.com/mrlinjw/react-native-baidu-map.git",
+  "_id": "react-native-baidu-map@1.0.5",
+  "_inCache": true,
+  "_location": "/react-native-baidu-map",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "react-native-baidu-map@git+https://github.com/mrlinjw/react-native-baidu-map.git",
+    "scope": null,
+    "escapedName": "react-native-baidu-map",
+    "name": "react-native-baidu-map",
+    "rawSpec": "git+https://github.com/mrlinjw/react-native-baidu-map.git",
+    "spec": "git+https://github.com/mrlinjw/react-native-baidu-map.git",
+    "type": "hosted",
+    "hosted": {
+      "type": "github",
+      "ssh": "git@github.com:mrlinjw/react-native-baidu-map.git",
+      "sshUrl": "git+ssh://git@github.com/mrlinjw/react-native-baidu-map.git",
+      "httpsUrl": "git+https://github.com/mrlinjw/react-native-baidu-map.git",
+      "gitUrl": "git://github.com/mrlinjw/react-native-baidu-map.git",
+      "shortcut": "github:mrlinjw/react-native-baidu-map",
+      "directUrl": "https://raw.githubusercontent.com/mrlinjw/react-native-baidu-map/master/package.json"
+    }
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+https://github.com/mrlinjw/react-native-baidu-map.git#b4f46c7be76d1c9f214d67ecdf99e5e9f07f49bc",
+  "_shasum": "a69029bdb20d493140c62eb142df5dd9039b2d0e",
+  "_shrinkwrap": null,
+  "_spec": "react-native-baidu-map@git+https://github.com/mrlinjw/react-native-baidu-map.git",
+  "_where": "/Users/linjunwen/work/company-svn/trunk/seatour",
+  "bugs": {
+    "url": "https://github.com/mrlinjw/react-native-baidu-map/issues"
+  },
   "dependencies": {},
   "description": "Baidu Map SDK modules and view for React Native(Android & IOS), support react native 0.40+.",
+  "devDependencies": {},
+  "gitHead": "b4f46c7be76d1c9f214d67ecdf99e5e9f07f49bc",
   "homepage": "https://github.com/mrlinjw/react-native-baidu-map#readme",
   "keywords": [
     "Baidu Map",
@@ -15,6 +73,7 @@
       "email": "616988524@qq.com"
     }
   ],
+  "name": "react-native-baidu-map",
   "optionalDependencies": {},
   "readme": "ERROR: No README data found!",
   "repository": {
@@ -24,5 +83,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.5"
+  "version": “1.0.6”
 }

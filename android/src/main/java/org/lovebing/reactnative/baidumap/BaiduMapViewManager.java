@@ -607,7 +607,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
 
         @Override
         public BitmapDescriptor getBitmapDescriptor() {
-            int iconId = R.drawable.icon_gcoding;
+            int iconId = R.drawable.icon_qita;
 //            if(mBundle!=null){
 //                if("001".contentEquals(mBundle.getString("index"))) {
 //                    iconId = R.drawable.icon_marka;

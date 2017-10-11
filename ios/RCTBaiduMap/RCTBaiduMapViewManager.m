@@ -34,6 +34,7 @@
     
 }
 
+@property (nonatomic, assign) NSInteger iconType;
 @property (nonatomic, assign) NSInteger size;
 @property (nonatomic, strong) UILabel *label;
 
@@ -41,6 +42,7 @@
 
 @implementation ClusterAnnotationView
 
+@synthesize iconType = _iconType;
 @synthesize size = _size;
 @synthesize label = _label;
 
@@ -55,16 +57,45 @@
         _label.backgroundColor = [UIColor redColor];
         _label.layer.cornerRadius = 11;
         _label.clipsToBounds = YES;
-        
         [self addSubview:_label];
         self.alpha = 0.85;
     }
     return self;
 }
 
+- (void)setIconType:(NSInteger)iconType {
+    _iconType = iconType;
+}
+
 - (void)setSize:(NSInteger)size {
     _size = size;
     self.pinColor = BMKPinAnnotationColorPurple;
+    NSString* iconImg = @"icon_qita.png";
+    if( self.iconType == 1){
+        iconImg = @"icon_diaodian.png";
+    }
+    else if( self.iconType == 3 ){
+        iconImg = @"icon_luying.png";
+    }
+    else if( self.iconType == 4 ){
+        iconImg = @"icon_jingdian.png";
+    }
+    else if( self.iconType == 6 ){
+        iconImg = @"icon_cangting.png";
+    }
+    else if( self.iconType == 7 ){
+        iconImg = @"icon_lvguan.png";
+    }
+    else if( self.iconType == 8 ){
+        iconImg = @"icon_chuangjia.png";
+    }
+    else if( self.iconType == 13 ){
+        iconImg = @"icon_yujudian.png";
+    }
+    else if( self.iconType == 18 ){
+        iconImg = @"icon_qianshui.png";
+    }
+    self.image = [UIImage imageNamed:iconImg];
     if (_size == 1) {
         self.label.hidden = YES;
         return;
@@ -96,6 +127,7 @@
 
 RCT_EXPORT_MODULE(RCTBaiduMapView)
 
+RCT_EXPORT_VIEW_PROPERTY(iconType, int)
 RCT_EXPORT_VIEW_PROPERTY(mapType, int)
 RCT_EXPORT_VIEW_PROPERTY(zoom, float)
 RCT_EXPORT_VIEW_PROPERTY(trafficEnabled, BOOL)
@@ -342,6 +374,7 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
         NSString *AnnotationViewID = @"ClusterMark";
         ClusterAnnotation *cluster = (ClusterAnnotation*)annotation;
         ClusterAnnotationView *annotationView = [[ClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
+        annotationView.iconType = mapView.tag;
         annotationView.size = cluster.size;
         annotationView.draggable = YES;
         annotationView.annotation = cluster;
