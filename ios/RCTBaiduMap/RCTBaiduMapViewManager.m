@@ -49,13 +49,15 @@
 - (id)initWithAnnotation:(id<BMKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self setBounds:CGRectMake(0.f, 0.f, 22.f, 22.f)];
-        _label = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, -10.0f, 22.f, 22.f)];
+        [self setBounds:CGRectMake(0.f, 0.f, 28.f, 28.f)];
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 28.f, 28.f)];
+        _label.layer.borderColor = [UIColor whiteColor].CGColor;
+        _label.layer.borderWidth = 2;
         _label.textColor = [UIColor whiteColor];
-        _label.font = [UIFont systemFontOfSize:11];
+        _label.font = [UIFont systemFontOfSize:12];
         _label.textAlignment = NSTextAlignmentCenter;
         _label.backgroundColor = [UIColor redColor];
-        _label.layer.cornerRadius = 11;
+        _label.layer.cornerRadius = 14;
         _label.clipsToBounds = YES;
         [self addSubview:_label];
         self.alpha = 0.85;
@@ -69,7 +71,7 @@
 
 - (void)setSize:(NSInteger)size {
     _size = size;
-    self.pinColor = BMKPinAnnotationColorPurple;
+//    self.pinColor = BMKPinAnnotationColorPurple;
     NSString* iconImg = @"icon_qita.png";
     if( self.iconType == 1){
         iconImg = @"icon_diaodian.png";
@@ -95,12 +97,11 @@
     else if( self.iconType == 18 ){
         iconImg = @"icon_qianshui.png";
     }
-    self.image = [UIImage imageNamed:iconImg];
     if (_size == 1) {
         self.label.hidden = YES;
-        return;
-    }
-    self.label.hidden = NO;
+        self.image = [UIImage imageNamed:iconImg];
+    }else{
+        self.label.hidden = NO;
 //    if (size > 20) {
 //        self.label.backgroundColor = [UIColor redColor];
 //    } else if (size > 10) {
@@ -110,7 +111,8 @@
 //    } else {
 //        self.label.backgroundColor = [UIColor greenColor];
 //    }
-    _label.text = [NSString stringWithFormat:@"%ld", size];
+        _label.text = [NSString stringWithFormat:@"%ld", size];
+    }
 }
 
 @end
@@ -378,6 +380,7 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
         annotationView.size = cluster.size;
         annotationView.draggable = YES;
         annotationView.annotation = cluster;
+        annotationView.canShowCallout = NO; //隐藏气泡
         return annotationView;
     }
     return nil;
