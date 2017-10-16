@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 
 import com.baidu.mapapi.clusterutil.MarkerManager;
 import com.baidu.mapapi.clusterutil.clustering.algo.Algorithm;
@@ -20,6 +21,8 @@ import com.baidu.mapapi.clusterutil.clustering.view.DefaultClusterRenderer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.Marker;
+
+import org.lovebing.reactnative.baidumap.BaiduMapViewManager;
 
 import java.util.Collection;
 import java.util.Set;
@@ -173,7 +176,7 @@ public class ClusterManager<T extends ClusterItem> implements
 
     @Override
     public void onMapStatusChangeStart(MapStatus mapStatus) {
-
+        Log.i("ClusterManger","onMapStatusChangeStart");
     }
 
     @Override
@@ -190,6 +193,7 @@ public class ClusterManager<T extends ClusterItem> implements
         mPreviousCameraPosition = mMap.getMapStatus();
 
         cluster();
+        Log.i("ClusterManger","onMapStatusChange");
     }
 
     @Override
@@ -199,6 +203,18 @@ public class ClusterManager<T extends ClusterItem> implements
         Message message = handler.obtainMessage(result);
         message.obj = mapStatus;
         handler.sendMessage(message);
+        // add by du 2017-10-16  17:01
+        //传给JS
+        if(BaiduMapViewManager.mapViewGloble!=null){
+            if(BaiduMapViewManager.mMarkerText==null){
+                return;
+            }
+            if(BaiduMapViewManager.mMarkerText.getVisibility() != View.GONE) {
+                BaiduMapViewManager.mMarkerText.setVisibility(View.GONE);
+            }
+            BaiduMapViewManager.sendEvent(BaiduMapViewManager.mapViewGloble, "onMapStatusChangeFinish", BaiduMapViewManager.getEventParams(mapStatus));
+            Log.i("ClusterManger","onMapStatusChangeFinish111");
+        }
 
     }
 
