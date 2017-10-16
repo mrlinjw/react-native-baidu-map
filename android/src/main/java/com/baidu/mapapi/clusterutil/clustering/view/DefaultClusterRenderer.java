@@ -21,10 +21,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.MessageQueue;
+import android.util.Log;
 import android.util.SparseArray;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.mapapi.clusterutil.MarkerManager;
@@ -65,7 +66,7 @@ import static com.baidu.mapapi.clusterutil.clustering.algo.NonHierarchicalDistan
  * The default view for a ClusterManager. Markers are animated in and out of clusters.
  */
 public class DefaultClusterRenderer<T extends ClusterItem> implements
-        com.baidu.mapapi.clusterutil.clustering.view.ClusterRenderer<T> {
+        ClusterRenderer<T> {
     private static final boolean SHOULD_ANIMATE = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     private final BaiduMap mMap;
     private final IconGenerator mIconGenerator;
@@ -119,23 +120,73 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements
     private ClusterManager.OnClusterItemClickListener<T> mItemClickListener;
     private ClusterManager.OnClusterItemInfoWindowClickListener<T> mItemInfoWindowClickListener;
 
-    private TextView tv_clusterSum;
+    public static TextView tv_clusterSum;
+    public static ImageView iv_unreadMsg;
     public DefaultClusterRenderer(Context context, BaiduMap map, ClusterManager<T> clusterManager) {
+
+
+//        mMap = map;
+//        mDensity = context.getResources().getDisplayMetrics().density;
+//        mIconGenerator = new IconGenerator(context);
+//       // mIconGenerator.setContentView(makeSquareTextView(context));
+//        View view =View.inflate(context,R.layout.clustersum,null);
+//        mIconGenerator.setContentView(view);
+//        mIconGenerator.setTextAppearance(R.style.ClusterIcon_TextAppearance);
+//        //mIconGenerator.setBackground(makeClusterBackground());
+//       // mIconGenerator.setBackground();
+//
+//          //modify by du 2017-10-11 15:50
+//          //修改聚合点图标,发现点击地图时，不会调用这里
+//
+//        iv_unreadMsg = (ImageView) view.findViewById(R.id.iv_unreadMsg);
+//         tv_clusterSum = (TextView) view.findViewById(R.id.tv_clusterSum);
+//        tv_clusterSum.setText(bucket+"");
+//
+//        //int iconId = R.drawable.icon_gcoding;
+//        int iconId = R.drawable.icon_gcoding;
+////        int iconType = BaiduMapViewManager.iconType;
+//        Log.e("聚合点总图标",iconType+"");
+//
+//        iv_unreadMsg.setImageResource(iconId);
+//
+//        //int bucket = getBucket(cluster);
+//        mClusterManager = clusterManager;
+
+
+        //官方源码
         mMap = map;
         mDensity = context.getResources().getDisplayMetrics().density;
         mIconGenerator = new IconGenerator(context);
-       // mIconGenerator.setContentView(makeSquareTextView(context));
-        View view =View.inflate(context,R.layout.clustersum,null);
-        mIconGenerator.setContentView(view);
+        mIconGenerator.setContentView(makeSquareTextView(context));
         mIconGenerator.setTextAppearance(R.style.ClusterIcon_TextAppearance);
-        //mIconGenerator.setBackground(makeClusterBackground());
-       // mIconGenerator.setBackground();
-         tv_clusterSum = (TextView) view.findViewById(R.id.tv_clusterSum);
-        tv_clusterSum.setText(bucket+"");
-        //int bucket = getBucket(cluster);
+        mIconGenerator.setBackground(makeClusterBackground());
         mClusterManager = clusterManager;
+
     }
 
+    public  static  void changeResouce(int iconType){
+        if(iconType==2){
+            iv_unreadMsg.setImageResource(R.drawable.icon_marka);
+            Log.e("hahahhahahhahhah","2");
+        }else if(iconType==1){
+            iv_unreadMsg.setImageResource(R.drawable.icon_diaodian);
+            Log.e("hahahhahahhahhah","1");
+        }else if(iconType==3){
+            iv_unreadMsg.setImageResource(R.drawable.icon_markb);
+            Log.e("hahahhahahhahhah","3");
+        }else if(iconType==4){
+            iv_unreadMsg.setImageResource(R.drawable.icon_jingdian);
+            Log.e("hahahhahahhahhah","4");
+        }else if(iconType==5){
+            iv_unreadMsg.setImageResource(R.drawable.icon_qita);
+            Log.e("hahahhahahhahhah","5");
+        }else{
+            iv_unreadMsg.setImageResource(R.drawable.icon_qianshui);
+            Log.e("hahahhahahhahhah","其他");
+        }
+
+
+    }
     @Override
     public void onAdd() {
         mClusterManager.getMarkerCollection().setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
@@ -710,15 +761,44 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements
      */
     private  int bucket=0;
     protected void onBeforeClusterRendered(Cluster<T> cluster, MarkerOptions markerOptions) {
-         bucket = getBucket(cluster);
-        tv_clusterSum.setText(bucket+"");
+//         bucket = getBucket(cluster);
+//        tv_clusterSum.setText(bucket+"");
+//        BitmapDescriptor descriptor = mIcons.get(bucket);
+//        if (descriptor == null) {
+//           // mColoredCircleBackground.getPaint().setColor(getColor(bucket));
+//            descriptor = BitmapDescriptorFactory.fromBitmap(mIconGenerator.makeIcon(getClusterText(bucket)));
+//            mIcons.put(bucket, descriptor);
+//        }
+//       // Log.e("bucket",bucket+"");
+//        // TODO: consider adding anchor(.5, .5) (Individual markers will overlap more often)
+//        markerOptions.icon(descriptor);
+
+
+
+        //官方源码，上面是修改过的
+        int bucket = getBucket(cluster);
         BitmapDescriptor descriptor = mIcons.get(bucket);
         if (descriptor == null) {
-           // mColoredCircleBackground.getPaint().setColor(getColor(bucket));
+            //mColoredCircleBackground.getPaint().setColor(getColor(bucket));
+            mColoredCircleBackground.getPaint().setColor(Color.parseColor("#FF0000"));
+
+//            int iconType = BaiduMapViewManager.iconType;
+//            Log.e("点击传递过来的iconType图标。。。",iconType+"");
+//            if(iconType==1){
+//                mColoredCircleBackground.getPaint().setColor(Color.parseColor("#FFFF00"));
+//            }else if(iconType==2){
+//                mColoredCircleBackground.getPaint().setColor(Color.parseColor("#FF00FF"));
+//            }else if(iconType==3){
+//                mColoredCircleBackground.getPaint().setColor(Color.parseColor("#00FFFF"));
+//            }else if(iconType==4){
+//                mColoredCircleBackground.getPaint().setColor(Color.parseColor("#FF0000"));
+//            }else if(iconType==5){
+//                mColoredCircleBackground.getPaint().setColor(Color.parseColor("#0000FF"));
+//            }
+
             descriptor = BitmapDescriptorFactory.fromBitmap(mIconGenerator.makeIcon(getClusterText(bucket)));
             mIcons.put(bucket, descriptor);
         }
-       // Log.e("bucket",bucket+"");
         // TODO: consider adding anchor(.5, .5) (Individual markers will overlap more often)
         markerOptions.icon(descriptor);
     }

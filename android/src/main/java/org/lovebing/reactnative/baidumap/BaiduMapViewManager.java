@@ -64,6 +64,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
         return REACT_CLASS;
     }
 
+    public static int iconType =1;//图标类型
 
     public void initSDK(Context context) {
         SDKInitializer.initialize(context);
@@ -111,6 +112,17 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
         mapView.getMap().setBaiduHeatMapEnabled(baiduHeatMapEnabled);
     }
 
+    @ReactProp(name = "iconType")
+    public void setIconType(MapView mapView, int iconType) {
+        Log.e("iconType图标类型",iconType+"" );
+        this.iconType =iconType;
+//        Log.e("我擦擦","ccccccccccccccccccccccccccccccccccccccccccccccccccccc");
+//        //DefaultClusterRenderer.iv_unreadMsg.setImageResource();
+//        changeResouce(iconType);
+
+
+    }
+
     @ReactProp(name = "mapType")
     public void setMapType(MapView mapView, int mapType) {
         mapView.getMap().setMapType(mapType);
@@ -155,7 +167,10 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
    public static List<MyItem> itemstest =  new ArrayList<MyItem>();
     @ReactProp(name="markers")
     public void setMarkers(final MapView mapView, ReadableArray options) {
+        //modify
 
+
+        Log.e("iconType图标。。。",iconType+"");
         Log.e("测试生命周期","聚合");
         mClusterManager.clearItems();//清除所有的items
         mClusterManager.getMarkerCollection().clear();
@@ -170,10 +185,6 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
         // 定义点聚合管理类ClusterManager
 
       //  mClusterManager = new ClusterManager<MyItem>(mReactContext, mapViewGloble.getMap());
-
-
-
-
 //
 
         for (BaiDuMapInfo info : mapInfos) {
@@ -193,8 +204,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyItem> cluster) {
-                Toast.makeText(mReactContext,
-                        cluster.getSize()+"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mReactContext, cluster.getSize()+"", Toast.LENGTH_SHORT).show();
 
                 //if(childClusterVisible){
                     List<MyItem> items = (List<MyItem>) cluster.getItems();
@@ -232,8 +242,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
             public boolean onClusterItemClick(MyItem item) {
                 String showText = item.getTitile();
 
-                Toast.makeText(mReactContext,
-                        showText, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mReactContext, showText, Toast.LENGTH_SHORT).show();
 
                 WritableMap writableMap = Arguments.createMap();
                 WritableMap writableMap_1 = Arguments.createMap();
@@ -258,8 +267,6 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
                 return false;
             }
         });
-
-
         mClusterManager.setHandler(handler, MAP_STATUS_CHANGE); //设置handler
 
     }
@@ -607,7 +614,70 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
 
         @Override
         public BitmapDescriptor getBitmapDescriptor() {
-            int iconId = R.drawable.icon_qita;
+            //int iconId = R.drawable.icon_gcoding;
+            //modify by du 2017-10-11 15:09
+            int iconId = R.drawable.icon_gcoding;
+            switch (iconType){
+                case 1:
+                    iconId = R.drawable.icon_diaodian;//钓点
+                    break;
+                case 2:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 3:
+                    iconId = R.drawable.icon_luying;//露营
+                    break;
+                case 4:
+                    iconId = R.drawable.icon_jingdian;//景点
+                    break;
+                case 5:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 6:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 7:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 8:
+                    iconId = R.drawable.icon_chuangjia;//船家
+                    break;
+                case 9:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 10:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 11:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 12:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 13:
+                    iconId = R.drawable.icon_yujudian;//渔具店
+                    break;
+                case 14:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 15:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 16:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 17:
+                    iconId = R.drawable.icon_qita;
+                    break;
+                case 18:
+                    iconId = R.drawable.icon_qianshui;//潜水
+                    break;
+                default:
+                    iconId = R.drawable.icon_qita;
+                    break;
+
+
+            }
 //            if(mBundle!=null){
 //                if("001".contentEquals(mBundle.getString("index"))) {
 //                    iconId = R.drawable.icon_marka;

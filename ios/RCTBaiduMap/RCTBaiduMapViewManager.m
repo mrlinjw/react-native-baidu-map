@@ -269,6 +269,25 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
     [self sendEvent:mapView params:event];
 }
 
+//拖动结束后返回中心坐标
+- (void) mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+    NSLog(@"regionDidChangeAnimated");
+    CLLocationCoordinate2D targetGeoPt = [mapView getMapStatus].targetGeoPt;
+    NSDictionary* event = @{
+                            @"type": @"onMapStatusChangeFinish",
+                            @"params": @{
+                                    @"target": @{
+                                            @"latitude": @(targetGeoPt.latitude),
+                                            @"longitude": @(targetGeoPt.longitude)
+                                            },
+                                    @"zoom": @(mapView.zoomLevel),
+                                    @"overlook": @""
+                                    }
+                            };
+    [self sendEvent:mapView params:event];
+}
+
+
 //监听地图状态，缩放时重绘标志
 - (void) mapView:(BMKMapView *)mapView onDrawMapFrame:(BMKMapStatus*)status {
     

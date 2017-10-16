@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="6dp"
             android:visibility="visible"
-            android:src="@drawable/icon_qita"
+            android:src="@drawable/icon_gcoding"
 
             />
 
