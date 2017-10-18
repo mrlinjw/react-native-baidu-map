@@ -229,7 +229,7 @@ public class DefaultClusterRenderer<T extends ClusterItem> implements
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         squareTextView.setLayoutParams(layoutParams);
         squareTextView.setId(R.id.text);
-        int twelveDpi = (int) (12 * mDensity);
+        int twelveDpi = (int) (9 * mDensity);
         squareTextView.setPadding(twelveDpi, twelveDpi, twelveDpi, twelveDpi);
         return squareTextView;
     }

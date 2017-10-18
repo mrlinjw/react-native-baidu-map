@@ -45,20 +45,20 @@
 
 -(void)setMarkers:(NSArray *)markers {
     int markersCount = [markers count];
-    if(_annotations == nil) {
+//    if(_annotations == nil) {
         _annotations = [[NSMutableArray alloc] init];
-    }
+//    }
     
     //删除旧点
-    int oldCount = [_annotations count];
-    if(oldCount >0 ){
-        int start = oldCount -1;
-        for (int i = start; i >= oldCount; i--) {
-            BMKPointAnnotation *annotation = [_annotations objectAtIndex:i];
-            [self removeAnnotation:annotation];
-            [_annotations removeObject:annotation];
-        }
-    }
+//    int oldCount = [_annotations count];
+//    if(oldCount >0 ){
+//        int start = oldCount -1;
+//        for (int i = start; i >= oldCount; i--) {
+//            BMKPointAnnotation *annotation = [_annotations objectAtIndex:i];
+//            [self removeAnnotation:annotation];
+//            [_annotations removeObject:annotation];
+//        }
+//    }
     
     if(markers != nil) {
         for (int i = 0; i < markersCount; i++)  {
@@ -110,7 +110,7 @@
 
 -(void)addMarker:(BMKPointAnnotation *)annotation option:(NSDictionary *)option {
     [self updateMarker:annotation option:option];
-    [self addAnnotation:annotation];
+//    [self addAnnotation:annotation];
 }
 
 -(void)updateMarker:(BMKPointAnnotation *)annotation option:(NSDictionary *)option {

@@ -49,15 +49,15 @@
 - (id)initWithAnnotation:(id<BMKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
-        [self setBounds:CGRectMake(0.f, 0.f, 28.f, 28.f)];
-        _label = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 28.f, 28.f)];
+        [self setBounds:CGRectMake(0.f, 0.f, 30.f, 30.f)];
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 30.f, 30.f)];
         _label.layer.borderColor = [UIColor whiteColor].CGColor;
         _label.layer.borderWidth = 2;
         _label.textColor = [UIColor whiteColor];
         _label.font = [UIFont systemFontOfSize:12];
         _label.textAlignment = NSTextAlignmentCenter;
         _label.backgroundColor = [UIColor redColor];
-        _label.layer.cornerRadius = 14;
+        _label.layer.cornerRadius = 15;
         _label.clipsToBounds = YES;
         [self addSubview:_label];
         self.alpha = 0.85;
@@ -185,6 +185,14 @@ onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
     [self sendEvent:mapView params:event];
 }
 
+//-(void) mapView:(BMKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
+//    NSDictionary* event = @{
+//                            @"type": @"onDidAddAnnotation",
+//                            @"params": @{}
+//                            };
+//    [self sendEvent:mapView params:event];
+//}
+
 -(void)mapViewDidFinishLoading:(BMKMapView *)mapView {
     NSDictionary* event = @{
                             @"type": @"onMapLoaded",
@@ -300,15 +308,7 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
         if(_zoomLevel != zooml){
             _zoomLevel = zooml;
             NSLog(@"%@", [NSString stringWithFormat:@"%ld级别", zooml]);
-//            if(!_annotations){
-////                _annotations = [NSMutableArray arrayWithArray: mapView.annotations];
-//                _annotations = [NSMutableArray new];
-//                int c = [mapView.annotations count];
-//                for (int i = 0; i< c; i++) {
-//                    [_annotations addObject:[mapView.annotations objectAtIndex:i]];
-//                }
-//            }
-            [self addPointJuheWithCoorArray:mapView ans:_Annotations ];
+//            [self addPointJuheWithCoorArray:mapView ans:_Annotations ];
         }
     }
 }
@@ -375,13 +375,15 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
                         }
                         [clusters addObject:annotation];
                     }
-//                    if(cluster == YES || (clusterPoint =NO && cluster == YES) ){
-//                        if(clusterPoint == NO){
-//                            cluster = NO;
-//                        }
-                        [mapView removeAnnotations:mapView.annotations];
-                        [mapView addAnnotations:clusters];
-//                    }
+                    [mapView removeAnnotations:mapView.annotations];
+                    [mapView addAnnotations:clusters];
+                    
+                    NSDictionary* event = @{
+                                            @"type": @"onIosDidAddAnnotations",
+                                            @"params": @{}
+                                            };
+                    [self sendEvent:mapView params:event];
+                    
                 });
             });
         }
