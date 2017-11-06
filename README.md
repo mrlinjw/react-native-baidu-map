@@ -7,6 +7,7 @@ Baidu Map SDK modules and view for React Native(Android & IOS), support react na
 百度地图 React Native 模块，支持 react native 0.30+
 
 添加加量多点聚合功能，marker添加itemId属性，点击聚合点cluster判断是否聚合点
+地图升级到4.5版本
 
 ![Android](https://raw.githubusercontent.com/lovebing/react-native-baidu-map/master/images/android.jpg)
 ![IOS](https://raw.githubusercontent.com/lovebing/react-native-baidu-map/master/images/ios.jpg)
@@ -29,9 +30,17 @@ project(':react-native-baidu-map').projectDir = new File(settingsDir, '../node_m
 #### Xcode
 - Project navigator->Libraries->Add Files to 选择 react-native-baidu-map/ios/RCTBaiduMap.xcodeproj
 - Project navigator->Build Phases->Link Binary With Libraries 加入 libRCTBaiduMap.a
-- Project navigator->Build Settings->Search Paths， Framework search paths 添加 react-native-baidu-map/ios/lib，Header search paths 添加 react-native-baidu-map/ios/RCTBaiduMap
+- Project navigator->Build Settings->Search Paths， Framework search paths 添加 react-native-baidu-map/ios/lib，libray search paths 添加 $(SRCROOT)/../node_modules/react-native-baidu-map/ios/lib/thirdlibs, Header search paths 添加 react-native-baidu-map/ios/RCTBaiduMap
 - 添加依赖, react-native-baidu-map/ios/lib 下的全部 framwordk， CoreLocation.framework和QuartzCore.framework、OpenGLES.framework、SystemConfiguration.framework、CoreGraphics.framework、Security.framework、libsqlite3.0.tbd（xcode7以前为 libsqlite3.0.dylib）、CoreTelephony.framework 、libstdc++.6.0.9.tbd（xcode7以前为libstdc++.6.0.9.dylib）
 - 添加 BaiduMapAPI_Map.framework/Resources/mapapi.bundle
+
+- 静态库中采用ObjectC++实现，因此需要您保证您工程中至少有一个.mm后缀的源文件(您可以将任意一个.m后缀的文件改名为.mm)，或者在工程属性中指定编译方式, 添加方式：即在Xcode的Project -> Edit Active Target -> Build Setting 中找到 Compile Sources As，并将其设置为"Objective-C++"
+
+- 在"Info.plist"中进行如下配置     
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>baidumap</string>
+    </array>
 
 - 其它一些注意事项可参考百度地图LBS文档
 
