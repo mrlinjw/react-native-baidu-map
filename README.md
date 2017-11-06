@@ -7,6 +7,7 @@ Baidu Map SDK modules and view for React Native(Android & IOS), support react na
 百度地图 React Native 模块，支持 react native 0.30+
 
 添加加量多点聚合功能，marker添加itemId属性，点击聚合点cluster判断是否聚合点
+
 地图升级到4.5版本
 
 ![Android](https://raw.githubusercontent.com/lovebing/react-native-baidu-map/master/images/android.jpg)
@@ -36,11 +37,11 @@ project(':react-native-baidu-map').projectDir = new File(settingsDir, '../node_m
 
 - 静态库中采用ObjectC++实现，因此需要您保证您工程中至少有一个.mm后缀的源文件(您可以将任意一个.m后缀的文件改名为.mm)，或者在工程属性中指定编译方式, 添加方式：即在Xcode的Project -> Edit Active Target -> Build Setting 中找到 Compile Sources As，并将其设置为"Objective-C++"
 
-- 在"Info.plist"中进行如下配置     
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>baidumap</string>
-    </array>
+- 在"Info.plist中进行如下配置     
+ -   <key>LSApplicationQueriesSchemes</key>
+ -   <array>
+ -       <string>baidumap</string>
+ -   </array>
 
 - 其它一些注意事项可参考百度地图LBS文档
 
