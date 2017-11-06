@@ -329,6 +329,14 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
             }
 
             @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus, int reason) {
+
+//                sendEvent(mapView, "onMapStatusChangeStart", getEventParams(mapStatus));
+//                Log.i("BaiduMap","onMapStatusChangeStart");
+
+            }
+
+            @Override
             public void onMapStatusChange(MapStatus mapStatus) {
                 Log.i("BaiduMap","onMapStatusChange");
                 sendEvent(mapView, "onMapStatusChange", getEventParams(mapStatus));

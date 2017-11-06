@@ -180,6 +180,11 @@ public class ClusterManager<T extends ClusterItem> implements
     }
 
     @Override
+    public void onMapStatusChangeStart(MapStatus mapStatus, int reason) {
+        Log.i("ClusterManger","onMapStatusChangeStart");
+    }
+
+    @Override
     public void onMapStatusChange(MapStatus mapStatus) {
         if (mRenderer instanceof BaiduMap.OnMapStatusChangeListener) {
             ((BaiduMap.OnMapStatusChangeListener) mRenderer).onMapStatusChange(mapStatus);
