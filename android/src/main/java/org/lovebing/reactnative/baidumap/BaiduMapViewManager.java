@@ -72,6 +72,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     public MapView createViewInstance(ThemedReactContext context) {
         mReactContext = context;
         mapViewGloble =  new MapView(context);
+        mapViewGloble.getMap().setMaxAndMinZoomLevel(21,10);
         setListeners(mapViewGloble);
         Log.e("测试生命周期","入库");
         mClusterManager = new ClusterManager<MyItem>(mReactContext, mapViewGloble.getMap());

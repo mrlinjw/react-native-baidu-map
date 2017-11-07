@@ -280,6 +280,9 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
 //拖动结束后返回中心坐标
 - (void) mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     NSLog(@"regionDidChangeAnimated");
+    if(mapView.zoomLevel < 10){
+        mapView.zoomLevel = 10;
+    }
     CLLocationCoordinate2D targetGeoPt = [mapView getMapStatus].targetGeoPt;
     NSDictionary* event = @{
                             @"type": @"onMapStatusChangeFinish",
