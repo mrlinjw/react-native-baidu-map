@@ -13,6 +13,7 @@
     BMKMapView* _mapView;
     BMKPointAnnotation* _annotation;
     NSMutableArray* _annotations;
+    NSMutableArray* _urlTiles;
 }
 
 -(void)setIconType:(int)iconType {
@@ -30,6 +31,31 @@
     self.centerCoordinate = point;
 }
 
+-(void)setUrlTiles:(NSArray *)urlTiles{
+    _urlTiles = [[NSMutableArray alloc] init];
+    NSMutableArray *tileOverlays = [NSMutableArray array];
+    [urlTiles enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        1、根据URL模版（即指向相关图层图片的URL）创建BMKURLTileLayer对象。
+        BMKURLTileLayer *tileLayer = [[BMKURLTileLayer alloc] initWithURLTemplate:obj];
+//        tileLayer.URLTemplate = obj;
+//        2、设置BMKURLTileLayer的可见最大/最小Zoom值。
+        tileLayer.minZoom = 0;
+        tileLayer.maxZoom = 20;
+//        3、设定BMKURLTileLayer的可渲染区域。
+        tileLayer.visibleMapRect = BMKMapRectMake(32994258, 35853667, 3122, 5541);
+//        4、将BMKURLTileLayer对象添加到BMKMapView中
+        [tileOverlays addObject:tileLayer];
+    }];
+    [self addOverlays:[NSArray arrayWithArray:tileOverlays]];
+    
+}
+//- (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id <BMKOverlay>)overlay {
+//    if ([overlay isKindOfClass:[BMKTileLayer class]]) {
+//        BMKTileLayerView *view = [[BMKTileLayerView alloc] initWithTileLayer:overlay];
+//        return view;
+//    }
+//    return nil;
+//}
 -(void)setMarker:(NSDictionary *)option {
     NSLog(@"setMarker");
     if(option != nil) {

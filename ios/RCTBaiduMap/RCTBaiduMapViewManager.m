@@ -136,6 +136,7 @@ RCT_EXPORT_VIEW_PROPERTY(trafficEnabled, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(baiduHeatMapEnabled, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(marker, NSDictionary*)
 RCT_EXPORT_VIEW_PROPERTY(markers, NSArray*)
+RCT_EXPORT_VIEW_PROPERTY(urlTiles, NSArray*)
 
 RCT_EXPORT_VIEW_PROPERTY(onChange, RCTBubblingEventBlock)
 
@@ -156,6 +157,11 @@ RCT_CUSTOM_VIEW_PROPERTY(center, CLLocationCoordinate2D, RCTBaiduMapView) {
 - (UIView *)view {
     RCTBaiduMapView* mapView = [[RCTBaiduMapView alloc] init];
     mapView.delegate = self;
+//    BMKURLTileLayer *urlTileLayer = [[BMKURLTileLayer alloc] initWithURLTemplate:@"http://api0.map.bdimg.com/customimage/tile?&x={x}&y={y}&z={z}&udt=20150601&customid=light"];
+//    urlTileLayer.maxZoom = 18;
+//    urlTileLayer.minZoom = 16;
+//    urlTileLayer.visibleMapRect = BMKMapRectMake(32994258, 35853667, 3122, 5541);
+//    [mapView addOverlay:urlTileLayer];
     return mapView;
 }
 
@@ -194,6 +200,7 @@ onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
 //}
 
 -(void)mapViewDidFinishLoading:(BMKMapView *)mapView {
+    NSArray *array = mapView.overlays;
     NSDictionary* event = @{
                             @"type": @"onMapLoaded",
                             @"params": @{}
@@ -233,6 +240,14 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
                                 }
                             };
     [self sendEvent:mapView params:event];
+}
+
+- (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id <BMKOverlay>)overlay {
+    if ([overlay isKindOfClass:[BMKTileLayer class]]) {
+        BMKTileLayerView *view = [[BMKTileLayerView alloc] initWithTileLayer:overlay];
+        return view;
+    }
+    return nil;
 }
 
 - (void) mapView:(BMKMapView *)mapView
