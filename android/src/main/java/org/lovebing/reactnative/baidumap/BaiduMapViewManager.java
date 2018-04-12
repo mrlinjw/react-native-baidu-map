@@ -24,6 +24,9 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MapViewLayoutParams;
 import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.TileOverlay;
+import com.baidu.mapapi.map.TileOverlayOptions;
+import com.baidu.mapapi.map.UrlTileProvider;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.facebook.react.bridge.Arguments;
@@ -58,6 +61,7 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     public static TextView mMarkerText;
     public  static MapView mapViewGloble;//全局mapview
     private ClusterManager<MyItem> mClusterManager;//多点聚合
+    private List<TileOverlay> tileOverlayList = new ArrayList<>(); //手绘地图
 
     public String getName() {
         return REACT_CLASS;
@@ -275,6 +279,39 @@ public class BaiduMapViewManager extends ViewGroupManager<MapView> {
     @ReactProp(name = "childrenPoints")
     public void setChildrenPoints(MapView mapView, ReadableArray childrenPoints) {
         this.childrenPoints = childrenPoints;
+    }
+
+    @ReactProp(name="urlTiles")
+    public void setUrlTiles(MapView mapView, ReadableArray drawingArray) {
+        for (TileOverlay tile : tileOverlayList) {
+            tile.removeTileOverlay();
+        }
+        tileOverlayList.clear();
+
+        BaiduMap map = mapView.getMap();
+        final int disMax = (int) map.getMaxZoomLevel();
+        final int disMin = (int) map.getMinZoomLevel();
+        for (int i = 0; i < drawingArray.size(); i++) {
+            final String tileUrl = drawingArray.getString(i);
+            TileOverlayOptions options = new TileOverlayOptions();
+            options.tileProvider(new UrlTileProvider() {
+                @Override
+                public String getTileUrl() {
+                    return tileUrl;
+                }
+
+                @Override
+                public int getMaxDisLevel() {
+                    return disMax;
+                }
+
+                @Override
+                public int getMinDisLevel() {
+                    return disMin;
+                }
+            });
+            tileOverlayList.add(map.addTileLayer(options));
+        }
     }
 
 
