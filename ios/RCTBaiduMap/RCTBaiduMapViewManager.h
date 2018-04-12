@@ -10,6 +10,8 @@
 #define RCTBaiduMapViewManager_h
 
 #import "RCTBaiduMapView.h"
+#import <BaiduMapAPI_Map/BMKTileLayer.h>
+#import <BaiduMapAPI_Map/BMKTileLayerView.h>
 
 static NSMutableArray* _Annotations;
 

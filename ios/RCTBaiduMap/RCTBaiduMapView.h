@@ -15,7 +15,10 @@
 #import <BaiduMapAPI_Map/BMKMapView.h>
 #import <BaiduMapAPI_Map/BMKPinAnnotationView.h>
 #import <BaiduMapAPI_Map/BMKPointAnnotation.h>
+#import <BaiduMapAPI_Map/BMKTileLayer.h>
 #import <UIKit/UIKit.h>
+
+#import "HandDrawnTileLayer.h"
 
 @interface RCTBaiduMapView : BMKMapView <BMKMapViewDelegate>
 
@@ -24,6 +27,7 @@
 -(void)setZoom:(float)zoom;
 -(void)setCenterLatLng:(NSDictionary *)LatLngObj;
 -(void)setMarker:(NSDictionary *)Options;
+-(void)setUrlTiles:(NSArray *)urlTiles;
 -(void)updateClusters;
 -(void)setIconType:(int)iconType;
 
